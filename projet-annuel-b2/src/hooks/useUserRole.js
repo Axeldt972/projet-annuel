@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { db } from '../services/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import useAuth from './useAuth';
+import { useAuth } from '../context/AuthContext';
 
 export default function useUserRole() {
   const { user } = useAuth();

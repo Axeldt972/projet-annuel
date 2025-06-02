@@ -2,7 +2,8 @@ import React from 'react';
 import { ToastProvider } from './components/ToastProvider';
 import './App.css';
 import AppRouter from './router';
-import useAuth from './hooks/useAuth';
+import { useAuth } from './context/AuthContext';
+import LogoutButton from './components/LogoutButton';
 import useUserRole from './hooks/useUserRole';
 
 export default function App() {
@@ -25,7 +26,7 @@ export default function App() {
           {user && (
             <>
               <a href="/profil" className="text-blue-700 hover:underline font-medium" tabIndex={0} aria-label="Voir mon profil">Profil</a>
-              <button onClick={() => { window.localStorage.clear(); window.location.href = '/login'; }} className="ml-2 px-2 py-1 text-xs bg-gray-300 rounded hover:bg-gray-400" aria-label="Se déconnecter">Déconnexion</button>
+              <LogoutButton />
             </>
           )}
         </nav>

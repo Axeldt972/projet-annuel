@@ -5,7 +5,7 @@ import useUserRole from '../hooks/useUserRole';
 import { db } from '../services/firebase';
 import { doc, updateDoc, Timestamp, arrayUnion } from 'firebase/firestore';
 import { useToast } from './ToastProvider';
-import useAuth from '../hooks/useAuth';
+import { useAuth } from "../context/AuthContext";
 
 // Pour la démo, on suppose que chaque salle a des coordonnées x/y en base (sinon à mocker)
 function getSalleCoords(salle) {

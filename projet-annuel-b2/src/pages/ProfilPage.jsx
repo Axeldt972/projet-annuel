@@ -3,7 +3,7 @@ import { useToast } from '../components/ToastProvider';
 import { db } from '../services/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { updatePassword } from 'firebase/auth';
-import useAuth from '../hooks/useAuth';
+import { useAuth } from "../context/AuthContext";
 import useUserRole from '../hooks/useUserRole';
 
 function getInitials(nom, email) {

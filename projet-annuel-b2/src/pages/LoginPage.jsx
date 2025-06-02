@@ -1,12 +1,15 @@
 import React from 'react';
-import useAuth from '../hooks/useAuth';
+import { useAuth } from '../context/AuthContext';
 import LoginForm from '../components/LoginForm';
 
 export default function LoginPage() {
   const { user, loading } = useAuth();
 
   if (loading) return <div className="text-center mt-8">Chargement...</div>;
-  if (user) return <div className="text-center mt-8">Déjà connecté ({user.email})</div>;
+  if (user) {
+    window.location.replace('/dashboard');
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
