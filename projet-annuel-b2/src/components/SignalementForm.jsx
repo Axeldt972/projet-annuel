@@ -2,6 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useToast } from './ToastProvider';
 import { db } from '../services/firebase';
 import { collection, addDoc, Timestamp, getDocs } from 'firebase/firestore';
+import Input from './ui/Input';
+import Select from './ui/Select';
+import Checkbox from './ui/Checkbox';
+import Textarea from './ui/Textarea';
 
 const PROBLEMES = [
   'Climatisation défectueuse',
@@ -89,46 +93,57 @@ export default function SignalementForm() {
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/70 via-white/60 to-blue-300/60 backdrop-blur-2xl">
+    <form
+      className="w-[600px] max-w-[90vw] space-y-8 p-12 rounded-3xl border border-blue-200 bg-white/60 shadow-2xl backdrop-blur-xl"
+      onSubmit={handleSubmit}
+    >
       <div>
-        <label className="block font-semibold">Salle</label>
-        <select
+        <label className="block font-semibold mb-1">Salle</label>
+        <Select
           id="salle"
           value={salle}
           onChange={e => setSalle(e.target.value)}
-          className="border rounded px-2 py-1 w-full"
           required
           ref={salleRef}
           aria-label="Sélectionnez une salle"
         >
           <option value="">-- Choisir une salle --</option>
           {salles.map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
-        {loadingSalles && <div className="text-xs text-gray-400">Chargement des salles...</div>}
+        </Select>
+        {loadingSalles && <div className="text-xs text-gray-400 mt-1">Chargement des salles...</div>}
       </div>
       <div>
-        <label className="block font-semibold">Problèmes</label>
-        {PROBLEMES.map(p => (
-          <div key={p} className="flex items-center">
-            <input type="checkbox" checked={problemes.includes(p)} onChange={() => handleProblemeChange(p)} />
-            <span className="ml-2">{p}</span>
-          </div>
-        ))}
+        <label className="block font-semibold mb-1">Problèmes</label>
+        <div className="flex flex-wrap gap-4">
+          {PROBLEMES.map(p => (
+            <label key={p} className="flex items-center gap-2 bg-white/50 px-3 py-1 rounded-lg shadow-sm hover:bg-blue-50 transition cursor-pointer">
+              <Checkbox checked={problemes.includes(p)} onChange={() => handleProblemeChange(p)} />
+              <span>{p}</span>
+            </label>
+          ))}
+        </div>
       </div>
       <div>
-        <label className="block font-semibold">Commentaire (optionnel)</label>
-        <textarea className="w-full border rounded p-2" value={commentaire} onChange={e => setCommentaire(e.target.value)} />
+        <label className="block font-semibold mb-1">Commentaire (optionnel)</label>
+        <Textarea
+          className="min-h-[80px]"
+          value={commentaire}
+          onChange={e => setCommentaire(e.target.value)}
+          placeholder="Ajoutez un commentaire..."
+        />
       </div>
       <button
         type="submit"
-        className="w-full bg-blue-700 text-white font-semibold py-2 px-4 rounded hover:bg-blue-800 disabled:opacity-50"
+        className="w-full bg-blue-700/80 hover:bg-blue-800/90 text-white font-semibold py-2 px-4 rounded-lg shadow transition disabled:opacity-50 backdrop-blur"
         disabled={loading}
         aria-label="Envoyer le signalement"
       >
-        Envoyer le signalement
+        {loading ? 'Envoi...' : 'Envoyer le signalement'}
       </button>
-      {success && <div className="text-green-600">Signalement envoyé !</div>}
-      {error && <div className="text-red-600">{error}</div>}
+      {success && <div className="text-green-600 text-center animate-fade-in">Signalement envoyé !</div>}
+      {error && <div className="text-red-600 text-center animate-fade-in">{error}</div>}
     </form>
+    </div>
   );
 }

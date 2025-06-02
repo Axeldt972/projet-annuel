@@ -8,18 +8,18 @@ export default function SignalementPage() {
 
   if (loading) return <div className="text-center mt-8">Chargement...</div>;
   if (!user) return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Connexion requise</h1>
-      <div className="bg-white rounded shadow p-4">
+    <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/70 via-white/60 to-blue-300/60 backdrop-blur-2xl">
+      <div className="bg-white/70 rounded-2xl shadow-2xl p-10 w-[400px] max-w-[90vw]">
+        <h1 className="text-2xl font-bold mb-4 text-center">Connexion requise</h1>
         <LoginForm />
       </div>
     </div>
   );
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Signaler un problème</h1>
-      <div className="bg-white rounded shadow p-4">
+    <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/70 via-white/60 to-blue-300/60 backdrop-blur-2xl">
+      <div className="w-full flex flex-col items-center">
+        <h1 className="text-3xl font-bold mb-8 text-blue-900 drop-shadow">Signaler un problème</h1>
         <SignalementForm />
       </div>
     </div>

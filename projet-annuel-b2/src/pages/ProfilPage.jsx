@@ -79,52 +79,54 @@ export default function ProfilPage() {
   if (loading) return <div className="text-center py-8">Chargement du profil...</div>;
 
   return (
-    <div className="max-w-lg mx-auto mt-8 p-4 bg-white rounded shadow">
-      <div className="flex flex-col items-center mb-6">
-        <div
-          className="w-20 h-20 rounded-full bg-blue-200 flex items-center justify-center text-3xl font-bold text-blue-800 mb-2 border-4 border-blue-300"
-          aria-label="Avatar utilisateur"
-        >
-          {getInitials(nom, user.email)}
+    <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/70 via-white/60 to-blue-300/60 backdrop-blur-2xl">
+      <div className="w-[500px] max-w-[95vw] bg-white/70 rounded-2xl shadow-2xl p-10">
+        <div className="flex flex-col items-center mb-6">
+          <div
+            className="w-20 h-20 rounded-full bg-blue-200 flex items-center justify-center text-3xl font-bold text-blue-800 mb-2 border-4 border-blue-300"
+            aria-label="Avatar utilisateur"
+          >
+            {getInitials(nom, user.email)}
+          </div>
+          <div className="text-lg font-semibold">{nom || user.email}</div>
+          <div className="text-gray-600 text-sm">{user.email}</div>
+          <div className="text-xs text-gray-400">UID : {user.uid}</div>
+          {creationDate && <div className="text-xs text-gray-400">Compte créé le : {creationDate}</div>}
+          <div className="text-xs text-blue-700 font-semibold mt-1">Rôle : {role}</div>
         </div>
-        <div className="text-lg font-semibold">{nom || user.email}</div>
-        <div className="text-gray-600 text-sm">{user.email}</div>
-        <div className="text-xs text-gray-400">UID : {user.uid}</div>
-        {creationDate && <div className="text-xs text-gray-400">Compte créé le : {creationDate}</div>}
-        <div className="text-xs text-blue-700 font-semibold mt-1">Rôle : {role}</div>
+        <form onSubmit={handleNomSubmit} className="mb-6">
+          <label className="block font-semibold mb-1">Nom affiché</label>
+          <input
+            ref={nomRef}
+            className="border rounded px-2 py-1 w-full mb-2"
+            value={nom}
+            onChange={e => setNom(e.target.value)}
+            aria-label="Modifier le nom affiché"
+          />
+          <button type="submit" className="bg-blue-700 text-white px-4 py-2 rounded" disabled={saving} aria-label="Enregistrer le nom">Enregistrer</button>
+        </form>
+        <form onSubmit={handlePwSubmit}>
+          <label className="block font-semibold mb-1">Changer le mot de passe</label>
+          <input
+            type="password"
+            className="border rounded px-2 py-1 w-full mb-2"
+            value={pw1}
+            onChange={e => setPw1(e.target.value)}
+            placeholder="Nouveau mot de passe"
+            aria-label="Nouveau mot de passe"
+          />
+          <input
+            type="password"
+            className="border rounded px-2 py-1 w-full mb-2"
+            value={pw2}
+            onChange={e => setPw2(e.target.value)}
+            placeholder="Confirmer le mot de passe"
+            aria-label="Confirmer le mot de passe"
+          />
+          <button type="submit" className="bg-blue-700 text-white px-4 py-2 rounded" disabled={pwSaving} aria-label="Changer le mot de passe">Changer le mot de passe</button>
+        </form>
+        {/* Aucune option de suppression de compte n'est proposée */}
       </div>
-      <form onSubmit={handleNomSubmit} className="mb-6">
-        <label className="block font-semibold mb-1">Nom affiché</label>
-        <input
-          ref={nomRef}
-          className="border rounded px-2 py-1 w-full mb-2"
-          value={nom}
-          onChange={e => setNom(e.target.value)}
-          aria-label="Modifier le nom affiché"
-        />
-        <button type="submit" className="bg-blue-700 text-white px-4 py-2 rounded" disabled={saving} aria-label="Enregistrer le nom">Enregistrer</button>
-      </form>
-      <form onSubmit={handlePwSubmit}>
-        <label className="block font-semibold mb-1">Changer le mot de passe</label>
-        <input
-          type="password"
-          className="border rounded px-2 py-1 w-full mb-2"
-          value={pw1}
-          onChange={e => setPw1(e.target.value)}
-          placeholder="Nouveau mot de passe"
-          aria-label="Nouveau mot de passe"
-        />
-        <input
-          type="password"
-          className="border rounded px-2 py-1 w-full mb-2"
-          value={pw2}
-          onChange={e => setPw2(e.target.value)}
-          placeholder="Confirmer le mot de passe"
-          aria-label="Confirmer le mot de passe"
-        />
-        <button type="submit" className="bg-blue-700 text-white px-4 py-2 rounded" disabled={pwSaving} aria-label="Changer le mot de passe">Changer le mot de passe</button>
-      </form>
-      {/* Aucune option de suppression de compte n'est proposée */}
     </div>
   );
 }

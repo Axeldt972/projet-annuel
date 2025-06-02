@@ -12,8 +12,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white rounded shadow p-8 max-w-sm w-full">
+    <div className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/70 via-white/60 to-blue-300/60 backdrop-blur-2xl">
+      <div className="bg-white/70 rounded-2xl shadow-2xl p-10 w-[400px] max-w-[90vw]">
         <h1 className="text-2xl font-bold mb-4 text-center">Connexion</h1>
         <LoginForm />
       </div>
