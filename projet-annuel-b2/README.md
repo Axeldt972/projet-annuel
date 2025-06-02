@@ -48,12 +48,49 @@ If you are developing a production application, we recommend using TypeScript wi
 
 - Signalement d’un problème en salle (formulaire)
 - Visualisation et gestion des signalements en temps réel (dashboard technique)
-- Plan interactif des locaux
+- **Plan interactif des locaux avec filtres dynamiques, badges, modale détaillée, export CSV et accessibilité renforcée**
 - Administration des salles et des utilisateurs (CRUD)
 - Export CSV des signalements, salles et utilisateurs (admin/technique)
 - Notifications toast accessibles (succès/erreur) pour toutes les actions importantes
 - Authentification Google restreinte aux emails @e-cdp.com
 - Sécurisation avancée via Firestore rules et gestion des rôles
+
+---
+
+## Plan interactif et gestion des signalements
+
+- Affichage d’un plan SVG schématique de l’étage avec positionnement précis des salles
+- Affichage dynamique des signalements sur le plan (badge coloré selon statut : Nouveau, En cours, Résolu)
+- Filtres par étage, statut, type de problème
+- Clic ou navigation clavier sur une salle : ouverture d’une modale listant les signalements actifs
+- Export CSV direct des signalements filtrés depuis la vue plan
+- **Accessibilité** : navigation clavier complète, aria-labels, focus visible, modale accessible, feedback toast annoncé
+
+## Historique des actions et traçabilité
+
+- Chaque signalement conserve un historique complet des actions (changement de statut, modification de commentaire technique)
+- Historique visible dans la modale pour les rôles technique/admin, avec date, auteur, action, détails
+- Traçabilité garantie pour toutes les interventions
+
+## Checklist accessibilité
+
+- Navigation clavier sur tout le site (Tab, Entrée, Échap, etc.)
+- Focus visible sur tous les éléments interactifs
+- aria-label explicite sur chaque bouton, champ, badge
+- Notifications toast annoncées via aria-live
+- Contraste couleurs respecté (badges, boutons, texte)
+- Modale accessible au clavier et screen reader (aria-modal, role=dialog)
+- Responsive mobile/tablette
+
+## Tests à réaliser avant déploiement
+
+- Tester chaque fonctionnalité avec chaque rôle (utilisateur, technique, admin)
+- Créer/modifier/filtrer/exporter des signalements
+- Changer statut/commentaire technique depuis la modale du plan
+- Tester navigation clavier complète (tabulation, focus, fermeture modale)
+- Vérifier l’export CSV avec différents filtres
+- Vérifier le plan interactif sur mobile/tablette
+- Vérifier la sécurité Firestore (accès interdit/autorisé selon le rôle)
 
 ---
 

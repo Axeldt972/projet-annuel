@@ -6,6 +6,7 @@ import PlanPage from './pages/PlanPage';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProfilPage from './pages/ProfilPage';
 
 export default function AppRouter() {
   return (
