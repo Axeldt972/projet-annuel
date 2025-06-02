@@ -6,10 +6,13 @@ import DashboardCard from '../components/DashboardCard';
 import SignalementsTable from '../components/SignalementsTable';
 import LoginForm from '../components/LoginForm';
 
+import useUserRole from '../hooks/useUserRole';
+
 export default function DashboardPage() {
   const { user, loading } = useAuth();
+  const { role, loading: roleLoading } = useUserRole();
 
-  if (loading) return <div className="text-center mt-8">Chargement...</div>;
+  if (loading || roleLoading) return <div className="text-center mt-8">Chargement...</div>;
   if (!user) {
     window.location.replace('/login');
     return null;
@@ -22,6 +25,10 @@ export default function DashboardPage() {
       <Sidebar active="dashboard" />
       <div className="flex-1 flex flex-col min-h-screen">
         <DashboardHeader />
+        {/* Affichage du rôle pour debug */}
+        <div className="w-full text-right px-8 pt-2 pb-0">
+          <span className="inline-block px-3 py-1 rounded bg-blue-100 text-blue-800 font-mono text-xs uppercase tracking-wide">Rôle détecté : {role || '...'}</span>
+        </div>
         <main className="flex-1 px-8 py-8">
           {/* Cards stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

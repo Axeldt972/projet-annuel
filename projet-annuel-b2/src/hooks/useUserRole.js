@@ -1,31 +1,40 @@
 import { useEffect, useState } from 'react';
-import { db } from '../services/firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { db } from '../services/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default function useUserRole() {
   const { user } = useAuth();
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!user) {
       setRole(null);
       setLoading(false);
+      setError(null);
       return;
     }
     async function fetchRole() {
       setLoading(true);
+      setError(null);
       try {
-        const q = query(collection(db, 'utilisateurs'), where('email', '==', user.email));
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-          setRole(snap.docs[0].data().role);
-        } else {
-          setRole('utilisateur'); // Par défaut
+        const collections = ['utilisateurs', 'admin', 'etudiants', 'administration'];
+        let found = false;
+        for (let col of collections) {
+          const ref = doc(db, col, user.uid);
+          const snap = await getDoc(ref);
+          if (snap.exists()) {
+            setRole(snap.data().role);
+            found = true;
+            break;
+          }
         }
-      } catch {
+        if (!found) setRole('utilisateur');
+      } catch (e) {
         setRole('utilisateur');
+        setError('Erreur Firestore : ' + (e && e.message ? e.message : e));
       } finally {
         setLoading(false);
       }
@@ -33,5 +42,8 @@ export default function useUserRole() {
     fetchRole();
   }, [user]);
 
-  return { role, loading };
+  return { role, loading, error };
 }
+
+
+

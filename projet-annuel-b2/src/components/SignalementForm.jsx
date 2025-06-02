@@ -18,8 +18,8 @@ const SALLES_MOCK = [
   'A101', 'A102', 'B201', 'B202', 'C301', 'C302',
 ];
 
-export default function SignalementForm() {
-  const [salle, setSalle] = useState('');
+export default function SignalementForm({ initialSalle = '' }) {
+  const [salle, setSalle] = useState(initialSalle);
   const [problemes, setProblemes] = useState([]);
   const [commentaire, setCommentaire] = useState('');
   const [success, setSuccess] = useState(false);
@@ -66,7 +66,7 @@ export default function SignalementForm() {
     setGlobalError(null);
     setLoading(true);
     if (!salle || problemes.length === 0) {
-      showToast('Veuillez sélectionner une salle et au moins un problème.', 'error');
+      setError('Veuillez sélectionner une salle et au moins un problème.');
       setLoading(false);
       return;
     }
@@ -80,12 +80,12 @@ export default function SignalementForm() {
         commentaire_tech: '',
         date_traitement: null,
       });
-      showToast('Signalement envoyé avec succès', 'success');
+      setSuccess(true);
       setSalle('');
       setProblemes([]);
       setCommentaire('');
     } catch (e) {
-      showToast('Erreur lors de l\'envoi du signalement', 'error');
+      setError("Erreur lors de l'envoi du signalement.");
       setGlobalError("Une erreur est survenue lors de la connexion à la base de données. Merci de réessayer ou de contacter l'administrateur.");
     } finally {
       setLoading(false);
@@ -107,6 +107,7 @@ export default function SignalementForm() {
           required
           ref={salleRef}
           aria-label="Sélectionnez une salle"
+          disabled={!!initialSalle}
         >
           <option value="">-- Choisir une salle --</option>
           {salles.map(s => <option key={s} value={s}>{s}</option>)}
